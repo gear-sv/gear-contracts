@@ -1,0 +1,19 @@
+{
+  "name": "gear-contracts",
+  "version": "0.0.1",
+  "description": "",
+  "main": "a.out.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gear-sv/gear-contracts.git"
+  },
+  "author": "Sean Pollock",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gear-sv/gear-contracts/issues"
+  },
+  "homepage": "https://github.com/gear-sv/gear-contracts#readme"
+}
