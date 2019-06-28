@@ -22,6 +22,12 @@ contractModule.onRuntimeInitialized = () => {
   const getSupply = contractModule.cwrap("getSupply", "number")
   const supply = getSupply()
   console.log("total supply is", supply)
+
+
+  console.log("calling transfer method")
+  const transfer = contractModule.cwrap("transfer", "bool", ["string", "number"])
+  const transferResult = transfer("glenn", 100)
+
 }
 
 

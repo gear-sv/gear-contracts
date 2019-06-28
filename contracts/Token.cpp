@@ -31,6 +31,9 @@ bool Token::transfer(char* recipient, unsigned int value) {
  */
 Token token;
 
+/*
+ * Interface
+ */
 extern "C" {
   bool mint(int amount) {
     token.mint(amount);   
@@ -44,5 +47,11 @@ extern "C" {
   bool setOwner(char* owner) {
     token.setOwner(owner);
     return true;
+  }
+
+  bool transfer(char* recipient, int value) {
+    token.transfer(recipient, value);
+    return true;
+
   }
 }
