@@ -5,6 +5,10 @@
 /*
  *  sets bitcoin address owner of the contract
  */
+bool Token::setOwner(char* _owner) {
+  owner = _owner;
+  return true;
+}
 
 /*
  * mints amount of tokens, issues to owner
@@ -32,4 +36,13 @@ extern "C" {
     token.mint(amount);   
     return true;
   }       
+  
+  int getSupply() {
+    return token.supply;
+  }
+  
+  bool setOwner(char* owner) {
+    token.setOwner(owner);
+    return true;
+  }
 }
