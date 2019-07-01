@@ -49,9 +49,13 @@ extern "C" {
     return true;
   }
 
+  char* getOwner() {
+    return token.owner;
+  }
+
   bool transfer(char* recipient, int value) {
     token.transfer(recipient, value);
     return true;
-
   }
+
 }

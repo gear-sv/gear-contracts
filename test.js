@@ -4,7 +4,11 @@ contractModule.onRuntimeInitialized = () => {
   console.log("setting owner of contract")
   const setOwner = contractModule.cwrap("setOwner", "bool", ["string"])
   const setOwnerResult = setOwner("sean")
-  console.log("setOwnerResult", ownerBuffer)
+
+  console.log("getting owner of the contract")
+  const getOwner = contractModule.cwrap("getOwner", "string")
+  const owner = getOwner()
+  console.log("owner is", owner)
 
   console.log("minting a 1000 tokens")
   const mint = contractModule.cwrap("mint", "bool", ["number"])
