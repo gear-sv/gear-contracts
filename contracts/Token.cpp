@@ -5,7 +5,7 @@
 /*
  *  sets bitcoin address owner of the contract
  */
-bool Token::setOwner(char* _owner) {
+bool Token::setOwner(char* sender, char* _owner) {
   owner = _owner;
   return true;
 }
@@ -13,7 +13,7 @@ bool Token::setOwner(char* _owner) {
 /*
  * mints amount of tokens, issues to owner
  */
-bool Token::mint(unsigned int amount) {
+bool Token::mint(char* sender,unsigned int amount) {
   supply = supply + amount;
   return true;
 }
@@ -21,7 +21,7 @@ bool Token::mint(unsigned int amount) {
 /*
  * transfers value of tokens to a recipient
  */
-bool Token::transfer(char* recipient, unsigned int value) {
+bool Token::transfer(char* sender, char* recipient, unsigned int value) {
   balances.insert(std::pair<char*, unsigned int>(recipient, value));
   return true;
 }
@@ -35,8 +35,8 @@ Token token;
  * Interface
  */
 extern "C" {
-  bool mint(int amount) {
-    token.mint(amount);   
+  bool mint(char* sender, int amount) {
+    token.mint(sender, amount);   
     return true;
   }       
   
@@ -44,8 +44,8 @@ extern "C" {
     return token.supply;
   }
   
-  bool setOwner(char* owner) {
-    token.setOwner(owner);
+  bool setOwner(char* sender, char* owner) {
+    token.setOwner(sender, owner);
     return true;
   }
 
@@ -53,8 +53,8 @@ extern "C" {
     return token.owner;
   }
 
-  bool transfer(char* recipient, int value) {
-    token.transfer(recipient, value);
+  bool transfer(char* sender, char* recipient, int value) {
+    token.transfer(sender, recipient, value);
     return true;
   }
 

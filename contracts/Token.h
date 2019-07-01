@@ -15,10 +15,10 @@ class Token {
     // current balance accounting  
     std::map<char*, unsigned int> balances;
     
-    bool mint(unsigned int amount);
+    bool mint(char* sender, unsigned int amount);
 
-    bool transfer(char* recipient, unsigned int value);
+    bool transfer(char* sender, char* recipient, unsigned int value);
     
-    bool setOwner(char* _owner);
+    bool setOwner(char* sender, char* _owner);
 };
 
