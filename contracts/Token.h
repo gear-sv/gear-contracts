@@ -3,6 +3,7 @@
  * https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/token/ERC20/ERC20.sol
  */
 #include <map>
+#include <iostream>
 
 class Token {
   public:
@@ -15,10 +16,10 @@ class Token {
     // current balance accounting  
     std::map<char*, unsigned int> balances;
     
-    bool mint(char* sender, unsigned int amount);
+    bool mint(char* SENDER, unsigned int amount);
 
-    bool transfer(char* sender, char* recipient, unsigned int value);
+    bool transfer(char* SENDER, char* recipient, unsigned int value);
     
-    bool setOwner(char* sender, char* _owner);
+    bool setOwner(char* SENDER, char* _owner);
 };
 

@@ -5,7 +5,11 @@
 /*
  *  sets bitcoin address owner of the contract
  */
-bool Token::setOwner(char* sender, char* _owner) {
+bool Token::setOwner(char* SENDER, char* _owner) {
+  if (SENDER != owner) {
+    return false;    
+  }
+
   owner = _owner;
   return true;
 }
@@ -13,7 +17,9 @@ bool Token::setOwner(char* sender, char* _owner) {
 /*
  * mints amount of tokens, issues to owner
  */
-bool Token::mint(char* sender,unsigned int amount) {
+bool Token::mint(char* SENDER, unsigned int amount) {
+  int balance = balances[sender];
+  std::cout <<  "balance of sender in contract is" << balance;
   supply = supply + amount;
   return true;
 }
@@ -21,7 +27,7 @@ bool Token::mint(char* sender,unsigned int amount) {
 /*
  * transfers value of tokens to a recipient
  */
-bool Token::transfer(char* sender, char* recipient, unsigned int value) {
+bool Token::transfer(char* SENDER, char* recipient, unsigned int value) {
   balances.insert(std::pair<char*, unsigned int>(recipient, value));
   return true;
 }
