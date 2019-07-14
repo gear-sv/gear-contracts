@@ -7,21 +7,27 @@
 
 class Token {
   public:
-    // represents integer value for total number of outstanding tokens
     unsigned int supply;
-
-    // current owner of the contract
+    unsigned int limit;
     char* owner;
+    char* ticker;
+    std::map<char*, unsigned int> balances;
 
     Token() {
       owner = "13geTUt3kqJ3vxMMBbWZwJ1NXnSEK2VDm6";
+      ticker = "CSW";
+      limit = 1e6;
     }
-    // current balance accounting
-    std::map<char*, unsigned int> balances;
 
-    bool mint(char* sender, unsigned int value);
+    bool mint(char* SENDER, unsigned int value);
 
     bool transfer(char* SENDER, char* recipient, unsigned int value);
 
     bool setOwner(char* SENDER, char* newOwner);
 };
+
+
+
+
+
+

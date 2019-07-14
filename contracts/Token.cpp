@@ -25,6 +25,10 @@ bool Token::mint(char* SENDER, unsigned int value) {
     return false;
   }
 
+  // check if mint exceeds
+  if (supply + value > limit) {
+    return false;
+  }
   // increment supply
   supply = supply + value;
 
@@ -95,5 +99,9 @@ extern "C" {
 
   int getBalance(char* address) {
     return token.balances[address];
+  }
+
+  char* getTicker() {
+    return token.ticker;
   }
 }
