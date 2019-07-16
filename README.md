@@ -13,7 +13,7 @@ MacOS Installation Instructions:
 ```
 Installs to /usr/local/Cellar/emscripten/[version].
 
-Generates default config file at `~/.emscripten`
+Generates default config file at `~/.emscripten`.
 ```
 
 2. Follow configuration steps by updating your `~/.emscripten` file accordingly.
@@ -30,8 +30,25 @@ in ~/.emscripten after running `emcc` for the first time.
 ___
 ### Create account
 1. `npm run keys`
-2. fund account by sending some bsv to the generated address in `key.json`
+```
+Creates key pair.
+Saves privateKey, publicKey, and address to key.json
+Generates QR code image of address to address.png
+```
+2. Fund account by sending some bsv to the generated address in `key.json`.
 
 ### Compile
+`npm run compile`
+
+```
+Compiles c++ code to wasm bytecode at a.out.wasm.
+Generates javascript module interface to a.out.js.
+
+Exports cwrap interfaces based on output functions in emcc call.
+See compile.sh for details.
+```
+
+### Test
 
 ### Deploy
+`npm run deploy`
