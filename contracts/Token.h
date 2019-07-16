@@ -14,16 +14,16 @@ class Token {
     std::map<char*, unsigned int> balances;
 
     Token() {
-      owner = "13geTUt3kqJ3vxMMBbWZwJ1NXnSEK2VDm6";
-      ticker = "CSW";
+      owner = "1EUSzmPjnDyvQgYTRukPDWaaeXSCHbCism";
+      ticker = "TEST";
       limit = 1e6;
     }
+
+    bool setOwner(char* SENDER, char* newOwner);
 
     bool mint(char* SENDER, unsigned int value);
 
     bool transfer(char* SENDER, char* recipient, unsigned int value);
-
-    bool setOwner(char* SENDER, char* newOwner);
 };
 
 
