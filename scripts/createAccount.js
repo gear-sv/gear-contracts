@@ -15,7 +15,7 @@ const key = {
 }
 
 fs.writeFile("key.json", JSON.stringify(key), "utf8", () => {
-  console.log("wrote keyfile")
+  console.log("keyfile written to key.json")
 })
 
 const code = qr.image(address.toString(), { type: "png" })
