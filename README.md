@@ -74,3 +74,9 @@ The `Token` implementation is a port of the solidity `erc20` standard. See refer
 | supply | uint  | current total supply in circulation.
 | balances | (char*, uint)  | std::map of address to integer supply units. accounting ledger for token.
 | ticker | char*  | shorthand identifier for token.
+
+| setter  | parameters | explanation |
+| ------------- | ------------- | ------------- |
+| send  | (char* recipient, uint value)  |  transfers specified value from the sender to the recipient.
+| setOwner | (char* newOwner)  | if the current owner, set a new owner to the specified address.
+| mint | (uint value)  | if the current owner, mint the specified value, the sender being the recipient.
