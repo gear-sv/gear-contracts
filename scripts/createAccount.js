@@ -5,7 +5,7 @@ const privateKey = bsv.PrivateKey.fromRandom()
 
 const publicKey = bsv.PublicKey.fromPrivateKey(privateKey)
 
-const address = bsv.Address.fromPublicKey(publicKey).toString()
+const address = bsv.Address.fromPublicKey(publicKey)
 
 const key = {
   privateKey: privateKey.toString(),
