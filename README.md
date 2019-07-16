@@ -49,6 +49,28 @@ See compile.sh for details.
 ```
 
 ### Test
+`npm run test`
 
 ### Deploy
 `npm run deploy`
+
+```
+Reads bytecode from file.
+Formats gearsv contract deploy call.
+Broadcasts transaction.
+
+Check for the deployment transaction at https://whatsonchain.com/address/[address]
+```
+____
+
+### Token
+
+The `Token` implementation is a port of the solidity `erc20` standard. See reference examply by OpenZeppelin [here](https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/token/ERC20/ERC20.sol).
+*The core functionality does not include check/approvals.*
+
+| state  | type | explanation |
+| ------------- | ------------- | ------------- |
+| owner  | char*  | hex string address. ability to mint or set new owner.
+| supply | uint  | current total supply in circulation.
+| balances | (char*, uint)  | mapping of address to integer supply units. accounting ledger for token.
+| ticker | char*  | shorthand identifier for token.
