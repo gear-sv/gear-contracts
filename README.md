@@ -1,11 +1,11 @@
 # gear-contracts
 
-Example test, compile, deploy framework for BSV powered c++ contracts.
+Example test, compile, deploy harness for BSV powered c++ contracts.
 
 ![deLorean Time Machine](delorean.jpg)
 ___
 
-### Install Emscripten
+### Install [Emscripten](https://emscripten.org/docs/)
 
 MacOS Installation Instructions:
 
@@ -77,6 +77,6 @@ The `Token` implementation is a port of the solidity `erc20` standard. See refer
 
 | setter  | parameters | explanation |
 | ------------- | ------------- | ------------- |
-| send  | (char* recipient, uint value)  |  transfers specified value from the sender to the recipient.
+| transfer  | (char* recipient, uint value)  |  transfers specified value from the sender to the recipient.
 | setOwner | (char* newOwner)  | if the current owner, set a new owner to the specified address.
 | mint | (uint value)  | if the current owner, mint the specified value, the sender being the recipient.
