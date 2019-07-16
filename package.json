@@ -20,7 +20,8 @@
   "homepage": "https://github.com/gear-sv/gear-contracts#readme",
   "dependencies": {
     "bsv": "^0.27.2",
-    "datapay": "0.0.15"
+    "datapay": "0.0.15",
+    "qr-image": "^3.2.0"
   },
   "devDependencies": {
     "tape": "^4.11.0"
