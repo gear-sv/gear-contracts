@@ -23,3 +23,15 @@ Manually set LLVM_ROOT to
 and comment out BINARYEN_ROOT
 in ~/.emscripten after running `emcc` for the first time.
 ```
+
+### Install gear-contracts
+1. `git clone https://github.com/gear-sv/gear-contracts.git`
+2. `npm i`
+___
+### Create account
+1. `npm run keys`
+2. fund account by sending some bsv to the generated address in `key.json`
+
+### Compile
+
+### Deploy
