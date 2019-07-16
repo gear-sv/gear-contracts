@@ -1,6 +1,5 @@
 const test = require("tape")
 const bsv = require("bsv")
-const { promises: fs } = require("fs")
 const contractModule = require("./a.out.js")
 
 contractModule.onRuntimeInitialized = () => {
@@ -27,7 +26,6 @@ contractModule.onRuntimeInitialized = () => {
 
     const transfer = contractModule.cwrap("transfer", "bool", ["string", "string", "number"])
     const transferResult = transfer(creator, "glenn", 100)
-    console.log("transferResult", transferResult)
     t.equal(transferResult, +true, "succesfully transfered tokens")
 
     const balance1 = getBalance(creator)
@@ -38,11 +36,9 @@ contractModule.onRuntimeInitialized = () => {
 
     const setOwner = contractModule.cwrap("setOwner", "bool", ["string", "string"])
     const setOwnerResult = setOwner(creator, "sean")
-    console.log("setOwnerResult", setOwnerResult)
     t.assert(setOwnerResult, +true, "succesfully changed owner")
 
     const newOwner = getOwner()
-    console.log("newOwner", newOwner)
     t.assert(newOwner, "sean", "new owner is set to sean")
   })
 }
