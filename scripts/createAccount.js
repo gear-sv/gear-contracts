@@ -1,5 +1,6 @@
 const bsv = require("bsv")
 const fs = require("fs")
+const qr = require("qr-image")
 
 const privateKey = bsv.PrivateKey.fromRandom()
 
@@ -16,3 +17,7 @@ const key = {
 fs.writeFile("key.json", JSON.stringify(key), "utf8", () => {
   console.log("wrote keyfile")
 })
+
+const code = qr.image(address.toString(), { type: "png" })
+const output = fs.createWriteStream("address.png")
+code.pipe(output)
