@@ -50,7 +50,7 @@ Generates QR code image of address to address.png
 2. Fund account by sending some bsv to the generated address in `key.json`.
 
 ### Compile
-`gear-contracts compile [token_name]`
+`gear-contracts compile [contract_name]`
 
 ```
 Compiles c++ code to wasm bytecode at a.out.wasm.
