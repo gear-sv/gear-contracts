@@ -17,6 +17,9 @@ switch(program.args[0]) {
   case "compile":
     compile()
     break
+  case "test":
+    test()
+    break
   default:
     console.log("no command given")
     break
@@ -24,7 +27,7 @@ switch(program.args[0]) {
 
 function init() {
   if (!program.args[1]) {
-    "please provide a project name"
+    console.log("please provide a project name")
     process.exit()
   }
 
@@ -35,4 +38,18 @@ function init() {
 
 function compile() {
   console.log("process.cwd()", process.cwd())
+  if (!program.args[1]) {
+    console.log("please provide a token name to compile")
+    process.exit()
+  }
+  const contract_path = `${process.cwd()}/contracts/${program.args[1]}.cpp`
+  const compile = exec(`contract_path=${contract_path} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
+    if (error) console.log("could not compile contract", error)
+  })
+}
+
+function test() {
+  const test = exec(`node ${process.cwd()}/test.js`, (error, stdout, stderr) => {
+    if (error) console.log("could not execute test cases", error)
+  })
 }
