@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "",
   "main": "a.out.js",
+  "bin": {
+    "gear-contracts": "bin/cli.js"
+  },
   "scripts": {
     "compile": ". ./compile.sh",
     "keys": "node ./scripts/createAccount.js",
@@ -20,6 +23,7 @@
   "homepage": "https://github.com/gear-sv/gear-contracts#readme",
   "dependencies": {
     "bsv": "^0.27.2",
+    "commander": "^2.20.0",
     "datapay": "0.0.15",
     "qr-image": "^3.2.0"
   },
