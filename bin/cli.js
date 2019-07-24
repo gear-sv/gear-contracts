@@ -3,6 +3,8 @@
 const program = require("commander")
 const exec = require("child_process").exec
 
+const createAccount = "./createAccount.js"
+
 program
   .version("0.0.1")
   .option("-c, --contract", "Specify contract id by transaction hash.")
@@ -13,6 +15,9 @@ program
 switch(program.args[0]) {
   case "init":
     init()
+    break
+  case "keys":
+    createAccount()
     break
   case "compile":
     compile()
@@ -49,7 +54,7 @@ function compile() {
 }
 
 function test() {
-  const test = exec(`node ${process.cwd()}/test.js`, (error, stdout, stderr) => {
-    if (error) console.log("could not execute test cases", error)
+  const test = exec(`${process.cwd()}/node_modules/tape/bin/tape ${process.cwd()}/test.js`, (error, stdout, stderr) => {
+    console.log("stdout", stdout)
   })
 }
