@@ -25,11 +25,23 @@ in ~/.emscripten after running `emcc` for the first time.
 ```
 
 ### Install gear-contracts
-1. `git clone https://github.com/gear-sv/gear-contracts.git`
-2. `npm i`
+`npm i gear-contracts -g`
 ___
+
+### Create Project
+`gear-contracts init [project_name]`
+
+```
+Generates a minimal contract harness.
+
+contracts
+  Token.h
+  Token.cpp
+tests
+  token.js
+```
 ### Create account
-1. `npm run keys`
+1. `gear-contracts keys`
 ```
 Creates key pair.
 Saves privateKey, publicKey, and address to key.json
@@ -38,21 +50,20 @@ Generates QR code image of address to address.png
 2. Fund account by sending some bsv to the generated address in `key.json`.
 
 ### Compile
-`npm run compile`
+`gear-contracts compile [token_name]`
 
 ```
 Compiles c++ code to wasm bytecode at a.out.wasm.
 Generates javascript module interface to a.out.js.
 
 Exports cwrap interfaces based on output functions in emcc call.
-See compile.sh for details.
 ```
 
 ### Test
-`npm run test`
+`gear-contracts test [contract_name]`
 
 ### Deploy
-`npm run deploy`
+`gear-contracts deploy [contract_name]`
 
 ```
 Reads bytecode from file.
