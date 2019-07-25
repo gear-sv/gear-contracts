@@ -4,7 +4,7 @@ const program = require("commander")
 const exec = require("child_process").exec
 
 const cleanPackage = require("./init.js")
-const createAccount = require("./createAccount.js")
+const createAccount = require("./keys.js")
 
 program
   .version("0.0.1")
@@ -24,19 +24,19 @@ switch(program.args[0]) {
     test()
     break
   default:
-    console.log("please provide a valid command")
+    console.log("### please provide a valid command")
     break
 }
 
 function init() {
   if (!program.args[1]) {
-    console.log("please provide a project name")
+    console.log("### please provide a project name")
     process.exit()
   }
 
   const projectName = program.args[1]
   const clone = exec(`project_name=${projectName} . ${__dirname}/init.sh`, (error, stdout, stderr) => {
-    if (error) console.log("could not clone example gear-contracts project", error)
+    if (error) console.log("#### could not clone example gear-contracts project", error)
     console.log(stdout)
 
     cleanPackage(projectName)
@@ -48,7 +48,7 @@ function init() {
 function compile() {
   console.log("process.cwd()", process.cwd())
   if (!program.args[1]) {
-    console.log("please provide a token name to compile")
+    console.log("### please provide a token name to compile")
     process.exit()
   }
   const contract_path = `${process.cwd()}/contracts/${program.args[1]}.cpp`
