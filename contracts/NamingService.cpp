@@ -46,4 +46,8 @@ extern "C" {
    bool transfer(char* sender, char* name, char* recipient) {
     return namingService.transfer(sender, name, recipient);
    }
+
+   bool getOwner(char* name) {
+     return namingService.names[name];
+   }
  }
