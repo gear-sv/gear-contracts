@@ -10,7 +10,7 @@ const main = async () => {
 
   // format and send transaction
   datapay.send({
-    data: ["gear.sv", bytecode, "binary", "token.wasm"], 
+    data: ["gear.sv", bytecode, "binary", "token.wasm"],
     pay: {
       key: key.privateKey,
       fee: 0

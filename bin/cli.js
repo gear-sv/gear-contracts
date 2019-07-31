@@ -2,7 +2,7 @@
 
 const program = require("commander")
 const exec = require("child_process").exec
-
+const inquirer = require("inquirer")
 const cleanPackage = require("./init.js")
 const createAccount = require("./keys.js")
 
@@ -28,25 +28,45 @@ switch(program.args[0]) {
     break
 }
 
-function init() {
-  if (!program.args[1]) {
-    console.log("### please provide a project name")
-    process.exit()
-  }
+/*******************************************
+*
+* $ gear-contracts init
+*
+*******************************************/
 
-  const projectName = program.args[1]
+async function init() {
+  console.log(`
+#################################################################
+#
+#   GearSV: smart contracts on bitcoin
+#
+#################################################################
+  `)
+
+  const answers = await inquirer.prompt([
+    { type: "input", name: "PROJECT", message: "Project Name", default: "test-project"},
+    { type: "input", name: "AUTHOR", message: "Author's Name", default: "John Appleseed"},
+    { type: "input", name: "VERSION", message: "Version Number", default: "0.0.1"}
+  ])
+
+  const projectName = answers.PROJECT
   const clone = exec(`project_name=${projectName} . ${__dirname}/init.sh`, (error, stdout, stderr) => {
     if (error) console.log("#### could not clone example gear-contracts project", error)
     console.log(stdout)
 
-    cleanPackage(projectName)
+    cleanPackage(projectName, answers.AUTHOR, answers.VERSION)
 
     console.log(`#### ${projectName} created`)
   })
 }
 
+/*******************************************
+*
+* $ gear-contracts compile [contract_name]
+*
+*******************************************/
+
 function compile() {
-  console.log("process.cwd()", process.cwd())
   if (!program.args[1]) {
     console.log("### please provide a token name to compile")
     process.exit()
@@ -56,6 +76,12 @@ function compile() {
     if (error) console.log("could not compile contract", error)
   })
 }
+
+/*******************************************
+*
+* $ gear-contracts test [contract_name]
+*
+*******************************************/
 
 function test() {
   const test = exec(`${process.cwd()}/node_modules/tape/bin/tape ${process.cwd()}/test.js`, (error, stdout, stderr) => {
