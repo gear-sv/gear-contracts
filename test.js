@@ -1,5 +1,4 @@
 const test = require("tape")
-const bsv = require("bsv")
 const contractModule = require("./a.out.js")
 
 contractModule.onRuntimeInitialized = () => {
@@ -42,4 +41,3 @@ contractModule.onRuntimeInitialized = () => {
     t.assert(newOwner, "sean", "new owner is set to sean")
   })
 }
-
