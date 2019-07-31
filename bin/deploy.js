@@ -10,7 +10,7 @@ const main = async () => {
 
   // format and send transaction
   datapay.send({
-    data: ["gear.sv", bytecode, "binary", "token.wasm"],
+    data: ["gearsv", bytecode, "binary", "token.wasm"],
     pay: {
       key: key.privateKey,
       fee: 0
@@ -21,7 +21,7 @@ const main = async () => {
 
 const readContract = () => {
   return new Promise((resolve, reject) => {
-    fs.readFile("./a.out.wasm", (error, data) => {
+    fs.readFile("./a.out.wasm", "binary" (error, data) => {
       if (error) reject(error)
       resolve(data)
     })
@@ -37,4 +37,4 @@ const readKey = () => {
   })
 }
 
-main()
+module.exports = main()

@@ -5,6 +5,7 @@ const exec = require("child_process").exec
 const inquirer = require("inquirer")
 const cleanPackage = require("./init.js")
 const createAccount = require("./keys.js")
+const deploy = require("./deploy.js")
 
 program
   .version("0.0.1")
@@ -22,6 +23,9 @@ switch(program.args[0]) {
     break
   case "test":
     test()
+    break
+  case "deploy":
+    deploy()
     break
   default:
     console.log("### please provide a valid command")
@@ -88,3 +92,9 @@ function test() {
     console.log(stdout)
   })
 }
+
+/*******************************************
+*
+* $ gear-contracts deploy [contract_name]
+*
+*******************************************/
