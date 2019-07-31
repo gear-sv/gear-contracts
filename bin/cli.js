@@ -6,31 +6,7 @@ const inquirer = require("inquirer")
 const cleanPackage = require("./init.js")
 const createAccount = require("./keys.js")
 const deploy = require("./deploy.js")
-
-program
-  .version("0.0.1")
-  .parse(process.argv)
-
-switch(program.args[0]) {
-  case "init":
-    init()
-    break
-  case "keys":
-    createAccount()
-    break
-  case "compile":
-    compile()
-    break
-  case "test":
-    test()
-    break
-  case "deploy":
-    deploy()
-    break
-  default:
-    console.log("### please provide a valid command")
-    break
-}
+const { findContracts } = require("./compile.js")
 
 /*******************************************
 *
@@ -38,31 +14,33 @@ switch(program.args[0]) {
 *
 *******************************************/
 
-async function init() {
-  console.log(`
-#################################################################
-#
-#   GearSV: smart contracts on bitcoin
-#
-#################################################################
-  `)
+program
+  .command("init")
+  .action(async () => {
+    console.log(`
+  #################################################################
+  #
+  #   GearSV: smart contracts on bitcoin
+  #
+  #################################################################
+    `)
 
-  const answers = await inquirer.prompt([
-    { type: "input", name: "PROJECT", message: "Project Name", default: "test-project"},
-    { type: "input", name: "AUTHOR", message: "Author's Name", default: "John Appleseed"},
-    { type: "input", name: "VERSION", message: "Version Number", default: "0.0.1"}
-  ])
+    const answers = await inquirer.prompt([
+      { type: "input", name: "PROJECT", message: "Project Name", default: "test-project"},
+      { type: "input", name: "AUTHOR", message: "Author's Name", default: "John Appleseed"},
+      { type: "input", name: "VERSION", message: "Version Number", default: "0.0.1"}
+    ])
 
-  const projectName = answers.PROJECT
-  const clone = exec(`project_name=${projectName} . ${__dirname}/init.sh`, (error, stdout, stderr) => {
-    if (error) console.log("#### could not clone example gear-contracts project", error)
-    console.log(stdout)
+    const projectName = answers.PROJECT
+    const clone = exec(`project_name=${projectName} . ${__dirname}/init.sh`, (error, stdout, stderr) => {
+      if (error) console.log("#### could not clone example gear-contracts project", error)
+      console.log(stdout)
 
-    cleanPackage(projectName, answers.AUTHOR, answers.VERSION)
+      cleanPackage(projectName, answers.AUTHOR, answers.VERSION)
 
-    console.log(`#### ${projectName} created`)
+      console.log(`#### ${projectName} created`)
+    })
   })
-}
 
 /*******************************************
 *
@@ -70,16 +48,21 @@ async function init() {
 *
 *******************************************/
 
-function compile() {
-  if (!program.args[1]) {
-    console.log("### please provide a token name to compile")
-    process.exit()
-  }
-  const contract_path = `${process.cwd()}/contracts/${program.args[1]}.cpp`
-  const compile = exec(`contract_path=${contract_path} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
-    if (error) console.log("could not compile contract", error)
+program
+  .command("compile [contract]")
+  .action(async (contract) => {
+    if (!contract) {
+      const contracts = await findContracts()
+      const answers = await inquirer.prompt([
+        { type: "list", name: "CONTRACT", message: "Choose Contract", choices: contracts}
+      ])
+      contract = answers.CONTRACT.slice(0, -4)
+    }
+    const contract_path = `${process.cwd()}/contracts/${contract}.cpp`
+    const compile = exec(`contract_path=${contract_path} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
+      if (error) console.log("could not compile contract", error)
+    })
   })
-}
 
 /*******************************************
 *
@@ -87,14 +70,31 @@ function compile() {
 *
 *******************************************/
 
-function test() {
-  const test = exec(`${process.cwd()}/node_modules/tape/bin/tape ${process.cwd()}/test.js`, (error, stdout, stderr) => {
-    console.log(stdout)
+program
+  .command("test [contract]")
+  .action((contract) => {
+    const test = exec(`${process.cwd()}/node_modules/tape/bin/tape ${process.cwd()}/test.js`, (error, stdout, stderr) => {
+      console.log(stdout)
+    })
   })
-}
+
 
 /*******************************************
 *
 * $ gear-contracts deploy [contract_name]
 *
 *******************************************/
+
+program
+  .command("deploy [contract]")
+  .action((contract) => {
+    deploy()
+  })
+
+/*******************************************/
+
+program.parse(process.argv)
+
+if (!process.argv.slice(2).length) {
+  program.outputHelp()
+}

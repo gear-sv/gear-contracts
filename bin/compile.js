@@ -1,13 +1,8 @@
-const { promises: fs } = require("fs")
 const util = require("util")
+const readdir = util.promisify(require("fs").readdir)
 const exec = util.promisify(require("child_process").exec)
 
-/* hard coded contract name */
-const contractName = "Token"
-
-/* file runtime method */
-
-const main = async () => {
+const main = async (contractName="Token") => {
   try {
     /* check that header file exists */
     const headerStats = await fs.stat(`contracts/${contractName}.h`)
@@ -91,5 +86,15 @@ const createBytecode = async (contractName) => {
   }
 }
 
-console.log("compiling contract", contractName)
-main()
+const findContracts = async () => {
+  const contractFiles = await readdir(`${process.cwd()}/contracts`)
+  return contractFiles.filter(contract => contract.substring(contract.length - 4, contract.length) === ".cpp")
+}
+
+findContracts()
+
+
+module.exports = {
+  compile: main,
+  findContracts
+}

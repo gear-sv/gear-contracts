@@ -21,7 +21,7 @@ const main = async () => {
 
 const readContract = () => {
   return new Promise((resolve, reject) => {
-    fs.readFile("./a.out.wasm", "binary" (error, data) => {
+    fs.readFile("./a.out.wasm", (error, data) => {
       if (error) reject(error)
       resolve(data)
     })
