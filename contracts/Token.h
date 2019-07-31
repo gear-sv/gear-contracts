@@ -2,9 +2,7 @@
  * ERC20 interface as defined:
  * https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/token/ERC20/ERC20.sol
  */
- 
 #include <map>
-#include <iostream>
 
 class Token {
   public:

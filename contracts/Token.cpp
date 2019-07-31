@@ -81,20 +81,20 @@ extern "C" {
     return token.mint(sender, amount);
   }
 
-  int getSupply() {
-    return token.supply;
-  }
-
   bool setOwner(char* sender, char* owner) {
     return token.setOwner(sender, owner);
   }
 
-  char* getOwner() {
-    return token.owner;
-  }
-
   bool transfer(char* sender, char* recipient, int value) {
     return token.transfer(sender, recipient, value);
+  }
+
+  int getSupply() {
+    return token.supply;
+  }
+
+  char* getOwner() {
+    return token.owner;
   }
 
   int getBalance(char* address) {
