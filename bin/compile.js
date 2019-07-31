@@ -74,12 +74,8 @@ const createABI = async (contractName) => {
 
 const createBytecode = async (contractName) => {
   try {
-    console.log("about to run emcc")
     // call emcc
     const { stdout, stderr } = exec('. ./compile.sh')
-    console.log("stdout", stdout)
-    console.log("stderr", stderr)
-
     return stdout
   } catch (error) {
     console.log("error creating byte code", error)
@@ -91,8 +87,18 @@ const findContracts = async () => {
   return contractFiles.filter(contract => contract.substring(contract.length - 4, contract.length) === ".cpp")
 }
 
-findContracts()
-
+// const compiler = () => {
+//   parser.lexer.cppUnit.clearPreprocessors(`${process.cwd()}/contracts/Token.cpp`, (error, codeText) => {
+//     if (error) console.log(error)
+//     console.log(codeText)
+//
+//     var tokens = parser.lexer.lexUnit.tokenize(codeText)
+//     console.log(tokens)
+//
+//     var parse_tree = parser.parse(tokens);
+//     console.log(parse_tree)
+//   })
+// }
 
 module.exports = {
   compile: main,

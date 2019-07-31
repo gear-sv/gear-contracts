@@ -18,11 +18,11 @@ program
   .command("init")
   .action(async () => {
     console.log(`
-  #################################################################
-  #
-  #   GearSV: smart contracts on bitcoin
-  #
-  #################################################################
+#################################################################
+#
+#   GearSV: smart contracts on bitcoin
+#
+#################################################################
     `)
 
     const answers = await inquirer.prompt([
@@ -32,6 +32,15 @@ program
     ])
 
     const projectName = answers.PROJECT
+
+    console.log(`
+#################################################################
+#
+#   INIT: ${projectName}
+#
+#################################################################
+    `)
+
     const clone = exec(`project_name=${projectName} . ${__dirname}/init.sh`, (error, stdout, stderr) => {
       if (error) console.log("#### could not clone example gear-contracts project", error)
       console.log(stdout)
@@ -40,6 +49,29 @@ program
 
       console.log(`#### ${projectName} created`)
     })
+  })
+
+
+/*******************************************
+*
+* $ gear-contracts keys
+*
+*******************************************/
+program
+  .command("keys")
+  .action(async () => {
+
+    console.log(`
+#################################################################
+#
+#   KEYS
+#
+#################################################################
+    `)
+
+    const keys = await createAccount()
+
+    console.table(keys)
   })
 
 /*******************************************
@@ -58,9 +90,22 @@ program
       ])
       contract = answers.CONTRACT.slice(0, -4)
     }
+
+    console.log(`
+#################################################################
+#
+#   COMPILE: ${contract}
+#
+#################################################################
+    `)
+
     const contract_path = `${process.cwd()}/contracts/${contract}.cpp`
-    const compile = exec(`contract_path=${contract_path} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
+    const wasm_file = `${contract}.out.wasm`
+    const js_file = `${contract}.out.js`
+    const compile = exec(`contract_path=${contract_path} wasm_file=${wasm_file} js_file=${js_file} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
       if (error) console.log("could not compile contract", error)
+      console.log(`### created wasm bytecode to a.out.wasm`)
+      console.log(`### created javascript interface at a.out.js`)
     })
   })
 
@@ -72,8 +117,25 @@ program
 
 program
   .command("test [contract]")
-  .action((contract) => {
-    const test = exec(`${process.cwd()}/node_modules/tape/bin/tape ${process.cwd()}/test.js`, (error, stdout, stderr) => {
+  .action(async (contract) => {
+    if (!contract) {
+      const contracts = await findContracts()
+      const answers = await inquirer.prompt([
+        { type: "list", name: "CONTRACT", message: "Choose Contract", choices: contracts}
+      ])
+      contract = answers.CONTRACT.slice(0, -4)
+    }
+
+    console.log(`
+#################################################################
+#
+#   TEST ${contract}
+#
+#################################################################
+    `)
+
+    const test = exec(`${__dirname}/../node_modules/.bin/tape ${process.cwd()}/test.js | ${__dirname}/../node_modules/.bin/tap-spec --color=always`, (error, stdout, stderr) => {
+      console.log(error)
       console.log(stdout)
     })
   })
@@ -87,8 +149,24 @@ program
 
 program
   .command("deploy [contract]")
-  .action((contract) => {
-    deploy()
+  .action(async (contract) => {
+    if (!contract) {
+      const contracts = await findContracts()
+      const answers = await inquirer.prompt([
+        { type: "list", name: "CONTRACT", message: "Choose Contract", choices: contracts}
+      ])
+      contract = answers.CONTRACT.slice(0, -4)
+    }
+
+    console.log(`
+  #################################################################
+  #
+  #   DEPLOY ${contract}
+  #
+  #################################################################
+    `)
+
+    deploy(contract)
   })
 
 /*******************************************/

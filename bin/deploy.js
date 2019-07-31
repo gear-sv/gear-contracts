@@ -37,4 +37,4 @@ const readKey = () => {
   })
 }
 
-module.exports = main()
+module.exports = main
