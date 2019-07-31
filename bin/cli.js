@@ -104,8 +104,8 @@ program
     const js_file = `${contract}.out.js`
     const compile = exec(`contract_path=${contract_path} wasm_file=${wasm_file} js_file=${js_file} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
       if (error) console.log("could not compile contract", error)
-      console.log(`### created wasm bytecode to a.out.wasm`)
-      console.log(`### created javascript interface at a.out.js`)
+      console.log(`### created wasm bytecode to output/${wasm_file}`)
+      console.log(`### created javascript interface to output/${js_file}`)
     })
   })
 
@@ -159,11 +159,11 @@ program
     }
 
     console.log(`
-  #################################################################
-  #
-  #   DEPLOY ${contract}
-  #
-  #################################################################
+#################################################################
+#
+#   DEPLOY ${contract}
+#
+#################################################################
     `)
 
     deploy(contract)

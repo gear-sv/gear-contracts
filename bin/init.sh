@@ -4,4 +4,5 @@ rm .git
 rm -rf bin
 rm README.md
 rm delorean.jpg
+mkdir output
 cd ..
