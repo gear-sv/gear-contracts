@@ -3,4 +3,4 @@ emcc $contract_path \
   EXPORTED_FUNCTIONS=$functions -s \
   EXTRA_EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' \
   -std=c++11 \
-  -o $contract_name.out.js
+  -o output/$contract_name.out.js
