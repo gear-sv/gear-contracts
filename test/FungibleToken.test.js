@@ -24,12 +24,12 @@ contract.onRuntimeInitialized = () => {
     fungibleToken.transfer("sean", "glenn", 50)
     const balance2 = fungibleToken.getBalance("glenn")
     const balance3 = fungibleToken.getBalance("sean")
-    t.equal(balance2, 50, "Should have transfered 50 tokens to 'glenn'.")
+    t.equal(balance2, 50, "Should have transferred 50 tokens to 'glenn'.")
     t.equal(balance3, 50, "Should have decremented 'sean' balance by 50 tokens.")
 
     console.log("SETOWNER")
     fungibleToken.setOwner("sean", "glenn")
     const owner2 = fungibleToken.getOwner()
-    t.equal(owner2, "glenn", "Should have transfered ownwership of the contract to 'glenn'.")
+    t.equal(owner2, "glenn", "Should have transferred ownwership of the contract to 'glenn'.")
   })
 }
