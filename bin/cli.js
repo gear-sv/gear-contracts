@@ -103,10 +103,7 @@ program
     const wasm_file = `${contract}.out.wasm`
     const js_file = `${contract}.out.js`
 
-    const functions = await getFunctions(contract)
-    console.log("### functions", functions)
-
-    const compile = exec(`contract_path=${contract_path} wasm_file=${wasm_file} js_file=${js_file} contract_name=${contract} functions=${functions} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
+    const compile = exec(`contract_path=${contract_path} contract_name=${contract} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
       if (error) console.log("could not compile contract", error)
       console.log(`### created wasm bytecode to output/${wasm_file}`)
       console.log(`### created javascript interface to output/${js_file}`)
@@ -139,7 +136,6 @@ program
     `)
 
     const test = exec(`${__dirname}/../node_modules/.bin/tape ${process.cwd()}/test/${contract}.test.js | ${__dirname}/../node_modules/.bin/tap-spec --color=always`, (error, stdout, stderr) => {
-      console.log(error)
       console.log(stdout)
     })
   })

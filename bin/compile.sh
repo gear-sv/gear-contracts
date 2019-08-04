@@ -1,6 +1,9 @@
 emcc $contract_path \
-  -O0 -s \
-  EXPORTED_FUNCTIONS=$functions -s \
-  EXTRA_EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' \
-  -std=c++11 \
+  --bind \
   -o output/$contract_name.out.js
+
+
+  # EXTRA_EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' \
+  # EXPORTED_FUNCTIONS=$functions -s \
+  # -std=c++11 \
+  # -O0 -s \
