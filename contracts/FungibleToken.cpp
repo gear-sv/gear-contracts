@@ -67,12 +67,19 @@ const unsigned int& FungibleToken::getBalance(std::string address) {
   return this->balances[address];
 }
 
+const std::map<std::string, unsigned int>& FungibleToken::getBalances() {
+  return this->balances;
+}
+
 EMSCRIPTEN_BINDINGS(FungibleToken_example) {
+  register_vector<std::string>("keys");
+  register_map<std::string, unsigned int>("balances");
   class_<FungibleToken>("FungibleToken").constructor<std::string>()
     .function("setOwner", &FungibleToken::setOwner)
     .function("mint", &FungibleToken::mint)
     .function("transfer", &FungibleToken::transfer)
     .function("getSupply", &FungibleToken::getSupply)
     .function("getOwner", &FungibleToken::getOwner)
-    .function("getBalance", &FungibleToken::getBalance);
+    .function("getBalance", &FungibleToken::getBalance)
+    .function("getBalances", &FungibleToken::getBalances);
  }

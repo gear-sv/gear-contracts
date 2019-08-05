@@ -16,4 +16,5 @@ class FungibleToken {
     const unsigned int& getSupply();
     const std::string& getOwner();
     const unsigned int& getBalance(std::string address);
+    const std::map<std::string, unsigned int>& getBalances();
 };
