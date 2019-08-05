@@ -2,7 +2,7 @@
 
 Example test, compile, deploy harness for BSV powered c++ contracts.
 
-![deLorean Time Machine](delorean2.jpg)
+![deLorean Time Machine](delorean3.jpg)
 ___
 
 ### Install [Emscripten](https://emscripten.org/docs/)
