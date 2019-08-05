@@ -30,7 +30,7 @@ const readContract = (contract) => {
 
 const readKey = () => {
   return new Promise((resolve, reject) => {
-    fs.readFile("./key.json", (error, data) => {
+    fs.readFile(`${process.cwd()}/key.json`, (error, data) => {
       if (error) reject(error)
       resolve(JSON.parse(data))
     })
