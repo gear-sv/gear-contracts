@@ -1,4 +1,4 @@
-# gear-contracts
+# gear-contracts 👨‍🚀
 
 Example test, compile, deploy harness for BSV powered c++ contracts.
 
