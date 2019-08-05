@@ -35,28 +35,37 @@ ___
 Generates a minimal contract harness.
 
 contracts
-  Token.h
-  Token.cpp
+  FungibleToken.h
+  FungibleToken.cpp
+  NamingService.h
+  NamingService.cpp
+  NonFungibleToken.h
+  NonFungibleToken.cpp
+
 tests
-  token.js
+  FungibleToken.test.js
+  NamingService.test.js
+  NonFungibleToken.test.js
+
+output
+  [compiled emscripten modules]
+  [compiled wasm binaries]
 ```
 ### Create account
 1. `gear-contracts keys`
 ```
 Creates key pair.
-Saves privateKey, publicKey, and address to key.json
-Generates QR code image of address to address.png
+Saves privateKey, publicKey, and address to key.json.
+Generates QR code image of address to address.png.
 ```
-2. Fund account by sending some bsv to the generated address in `key.json`.
+2. Fund account by sending some bsv to the generated address in `key.json`. You can easily scan the QR code and send payment with HandCash.
 
 ### Compile
 `gear-contracts compile [contract_name]`
 
 ```
-Compiles c++ code to wasm bytecode at a.out.wasm.
-Generates javascript module interface to a.out.js.
-
-Exports cwrap interfaces based on output functions in emcc call.
+Compiles c++ code to wasm bytecode at [contract_name].out.wasm.
+Generates javascript module interface to [contract_name].out.js.
 ```
 
 ### Test
@@ -72,22 +81,3 @@ Broadcasts transaction.
 
 Check for the deployment transaction at https://whatsonchain.com/address/[address]
 ```
-____
-
-### Token
-
-The `Token` implementation is a port of the solidity `erc20` standard. See reference examply by OpenZeppelin [here](https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/token/ERC20/ERC20.sol).
-*The core functionality does not include check/approvals.*
-
-| state  | type | explanation |
-| ------------- | ------------- | ------------- |
-| owner  | char*  | hex string address. ability to mint or set new owner.
-| supply | uint  | current total supply in circulation.
-| balances | (char*, uint)  | std::map of address to integer supply units. accounting ledger for token.
-| ticker | char*  | shorthand identifier for token.
-
-| setter  | parameters | explanation |
-| ------------- | ------------- | ------------- |
-| transfer  | (char* recipient, uint value)  |  transfers specified value from the sender to the recipient.
-| setOwner | (char* newOwner)  | if the current owner, set a new owner to the specified address.
-| mint | (uint value)  | if the current owner, mint the specified value, the sender being the recipient.
