@@ -15,6 +15,17 @@ const main = async (contract) => {
       key: key.privateKey,
       fee: 0
     }
+  }, (error, hash) => {
+    if (error) console.log("### could not deploy contract", error)
+    console.log(`
+#################################################################
+#
+#   Successfully Deployed Contract:
+#
+#   https://whatsonchain.com/tx/${hash}
+#
+#################################################################
+    `)
   })
 
 }
