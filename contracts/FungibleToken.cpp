@@ -3,21 +3,25 @@
 
 using namespace emscripten;
 
-
 FungibleToken::FungibleToken(std::string owner) {
   this->supply = 0;
   this->owner = owner;
 }
 
-bool FungibleToken::setOwner(std::string SENDER, std::string newOwner) {
+const std::string& FungibleToken::setOwner(std::string SENDER, std::string newOwner) {
+  // check that SENDER is the current owner
+  if (SENDER != this->owner) {
+    return "fail";
+  }
+
   this->owner = newOwner;
-  return true;
+  return "success";
 }
 
-bool FungibleToken::mint(std::string SENDER, unsigned int amount) {
+const std::string& FungibleToken::mint(std::string SENDER, unsigned int amount) {
   // only the owner can mint
   if (SENDER != this->owner) {
-    return false;
+    return "fail";
   }
 
   // mint tokens, assign to owner
@@ -31,13 +35,13 @@ bool FungibleToken::mint(std::string SENDER, unsigned int amount) {
     this->balances[SENDER] = balance + amount;
   }
 
-  return true;
+  return "success";
 }
 
-bool FungibleToken::transfer(std::string SENDER, std::string recipient, unsigned int amount) {
+const std::string& FungibleToken::transfer(std::string SENDER, std::string recipient, unsigned int amount) {
   // check if SENDER has sufficient funds
   if (this->balances[SENDER] < amount) {
-    return false;
+    return "fail";
   }
 
   // increment recipient balance
@@ -52,7 +56,7 @@ bool FungibleToken::transfer(std::string SENDER, std::string recipient, unsigned
   int senderBalance = this->balances[SENDER];
   this->balances[SENDER] = senderBalance - amount;
 
-  return true;
+  return "success";
 }
 
 const unsigned int& FungibleToken::getSupply() {

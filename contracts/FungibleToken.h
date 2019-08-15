@@ -9,9 +9,9 @@ class FungibleToken {
 
     FungibleToken(std::string owner);
 
-    bool setOwner(std::string SENDER, std::string newOwner);
-    bool mint(std::string SENDER, unsigned int amount);
-    bool transfer(std::string SENDER, std::string recipient, unsigned int amount);
+    const std::string& setOwner(std::string SENDER, std::string newOwner);
+    const std::string& mint(std::string SENDER, unsigned int amount);
+    const std::string& transfer(std::string SENDER, std::string recipient, unsigned int amount);
 
     const unsigned int& getSupply();
     const std::string& getOwner();
