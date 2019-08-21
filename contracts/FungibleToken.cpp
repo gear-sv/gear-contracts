@@ -15,7 +15,7 @@ const std::string& FungibleToken::setOwner(std::string SENDER, std::string newOw
   }
 
   this->owner = newOwner;
-  return "success";
+  return "pass";
 }
 
 const std::string& FungibleToken::mint(std::string SENDER, unsigned int amount) {
@@ -35,7 +35,7 @@ const std::string& FungibleToken::mint(std::string SENDER, unsigned int amount) 
     this->balances[SENDER] = balance + amount;
   }
 
-  return "success";
+  return "pass";
 }
 
 const std::string& FungibleToken::transfer(std::string SENDER, std::string recipient, unsigned int amount) {
@@ -56,7 +56,7 @@ const std::string& FungibleToken::transfer(std::string SENDER, std::string recip
   int senderBalance = this->balances[SENDER];
   this->balances[SENDER] = senderBalance - amount;
 
-  return "success";
+  return "pass";
 }
 
 const unsigned int& FungibleToken::getSupply() {
