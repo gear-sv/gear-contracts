@@ -2,27 +2,28 @@
 #include "emscripten/bind.h"
 
 using namespace emscripten;
+using namespace std;
 
-NonFungibleToken::NonFungibleToken(std::string owner) {
+NonFungibleToken::NonFungibleToken(string owner) {
   this->owner = owner;
 }
 
-bool NonFungibleToken::setOwner(std::string SENDER, std::string owner) {
+bool NonFungibleToken::setOwner(string SENDER, string owner) {
   this->owner = owner;
   return true;
 }
 
-bool NonFungibleToken::mint(std::string SENDER, std::string recipient) {
+bool NonFungibleToken::mint(string SENDER, string recipient) {
   // check SENDER is the owner
   if (SENDER != this->owner) {
     return false;
   }
 
-  this->tokens.insert(std::pair<unsigned int, std::string>(this->tokens.size(), recipient));
+  this->tokens.insert(pair<unsigned int, string>(this->tokens.size(), recipient));
   return true;
 }
 
-bool NonFungibleToken::transfer(std::string SENDER, unsigned int token, std::string recipient) {
+bool NonFungibleToken::transfer(string SENDER, unsigned int token, string recipient) {
   // check that SENDER owns the token
   if (this->tokens[token] != SENDER) {
     return false;
@@ -34,28 +35,27 @@ bool NonFungibleToken::transfer(std::string SENDER, unsigned int token, std::str
   return true;
 }
 
-const std::string& NonFungibleToken::getOwner() {
+const string& NonFungibleToken::getOwner() {
   return this->owner;
 }
 
-std::string& NonFungibleToken::getTokenOwner(unsigned int index) {
+string& NonFungibleToken::getTokenOwner(unsigned int index) {
   return this->tokens[index];
 }
 
-std::map<unsigned int, std::string>& NonFungibleToken::getTokens() {
+map<unsigned int, string>& NonFungibleToken::getTokens() {
   return this->tokens;
 }
 
-
-
 EMSCRIPTEN_BINDINGS(NonFungibleToken_example) {
-  register_map<unsigned int, std::string>("Tokens");
-  class_<NonFungibleToken>("NonFungibleToken").constructor<std::string>()
+  register_vector<unsigned int>("keys");
+  register_map<unsigned int, string>("tokens");
+  class_<NonFungibleToken>("NonFungibleToken").constructor<string>()
     .function("setOwner", &NonFungibleToken::setOwner)
     .function("mint", &NonFungibleToken::mint)
     .function("transfer", &NonFungibleToken::transfer)
     .function("getOwner", &NonFungibleToken::getOwner)
     .function("getTokenOwner", &NonFungibleToken::getTokenOwner)
-    .function("tokens", &NonFungibleToken::getTokens)
+    .function("getTokens", &NonFungibleToken::getTokens)
     .function("getToken", &NonFungibleToken::getTokenOwner);
  }
