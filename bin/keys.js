@@ -1,6 +1,6 @@
 const bsv = require("bsv")
 const fs = require("fs")
-const qr = require("qr-image")
+const qr = require("qrcode-terminal")
 
 const createAccount = () => {
   return new Promise((resolve, reject) => {
@@ -18,16 +18,17 @@ const createAccount = () => {
 
     fs.writeFile(`${process.cwd()}/key.json`, JSON.stringify(key), "utf8", (error) => {
       console.log("### keyfile written to key.json")
-
-      const code = qr.image(address.toString(), { type: "png" })
-      const output = fs.createWriteStream(`${process.cwd()}/address.png`)
-      code.pipe(output)
-      output.on("close", () => {
-        console.log("### qr code saved to address.png")
-        resolve(key)
-      })
     })
-  })
-}
+    const genQR = qr.generate(address.toString());
+    genQR;
 
+    const output = fs.createWriteStream(`${process.cwd()}/address.png`)
+    genQR.pipe(output)
+
+    output.on("close", () => {
+    resolve(key);
+
+}
+  )})}
 module.exports = createAccount
+createAccount()
