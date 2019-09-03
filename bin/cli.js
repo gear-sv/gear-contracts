@@ -7,6 +7,7 @@ const cleanPackage = require("./init.js")
 const createAccount = require("./keys.js")
 const deploy = require("./deploy.js")
 const { findContracts, getFunctions } = require("./compile.js")
+const write = require("./write")
 
 /*******************************************
 *
@@ -167,6 +168,18 @@ program
     `)
 
     deploy(contract)
+  })
+
+/*******************************************
+*
+* $ gear-contracts write
+*
+*******************************************/
+
+program
+  .command("write")
+  .action(async (contract) => {
+    write()
   })
 
 /*******************************************/
