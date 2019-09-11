@@ -1,6 +1,6 @@
 {
   "name": "gear-contracts",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "test.js",
   "bin": {
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/gear-sv/gear-contracts.git"
   },
   "author": "Sean Pollock",
-  "license": "MIT",
+  "license": "OpenBSV",
   "bugs": {
     "url": "https://github.com/gear-sv/gear-contracts/issues"
   },
