@@ -1,12 +1,12 @@
 #! /usr/bin/env node
 
 const program = require("commander")
-const exec = require("child_process").exec
+const { exec } = require("child_process")
 const inquirer = require("inquirer")
-const cleanPackage = require("./init.js")
+//const cleanPackage = require("./init.js")
 const createAccount = require("./keys.js")
 const deploy = require("./deploy.js")
-const { findContracts, getFunctions } = require("./compile.js")
+const { findContracts, getFunctions } = require("./gear-utils.js")
 const write = require("./write")
 
 /*******************************************
@@ -25,14 +25,24 @@ program
 #
 #################################################################
     `)
-
+    const contracts = await findContracts()
     const answers = await inquirer.prompt([
       { type: "input", name: "PROJECT", message: "Project Name", default: "test-project"},
       { type: "input", name: "AUTHOR", message: "Author's Name", default: "John Appleseed"},
-      { type: "input", name: "VERSION", message: "Version Number", default: "0.0.1"}
+      { type: "input", name: "VERSION", message: "Version Number", default: "0.0.1"},
+      { type: "list", name: "STANDARD", message: "Import Standard Template?", choices: ["Yes","No"]}
+    ])
+    const chosen = await inquirer.prompt([
+      { type: "list",
+        name: "IMPORT",
+        message: "Choose Contract",
+        choices: contracts,
+        when: answers.STANDARD === "Yes"
+        }
     ])
 
     const projectName = answers.PROJECT
+
 
     console.log(`
 #################################################################
@@ -42,12 +52,17 @@ program
 #################################################################
     `)
 
-    const clone = exec(`project_name=${projectName} . ${__dirname}/init.sh`, (error, stdout, stderr) => {
+    const initialize = exec(`project_name=${projectName} sh ${__dirname}/init.sh`, (error, stdout, stderr) => {
       if (error) console.log("#### could not clone example gear-contracts project", error)
       console.log(stdout)
 
-      cleanPackage(projectName, answers.AUTHOR, answers.VERSION)
+      if ( answers.STANDARD == "Yes" ) {
+        const cImport = chosen.IMPORT.slice(0, -4)
+        exec(`cp contracts/${cImport}.* ${projectName}/contracts/`)
+        exec(`cp tests/${cImport}.test.js ${projectName}/tests/`)
+      }
 
+      console.log(answers)
       console.log(`#### ${projectName} created`)
     })
   })
