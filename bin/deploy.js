@@ -6,9 +6,6 @@ const main = async (contract) => {
   // fetch key
   const key = await readKey()
 
-  // read wasm bytecode
-  //const bytecode = await readContract(contract)
-
   const blueprint = await readTar(contract)
 
   // format and send transaction
@@ -30,34 +27,6 @@ const main = async (contract) => {
 #################################################################
     `)
   })
-
 }
-
-// const readContract = (contract) => {
-//   return new Promise((resolve, reject) => {
-//     fs.readFile(`${process.cwd()}/output/${contract}.out.wasm`, (error, data) => {
-//       if (error) reject(error)
-//       resolve(data)
-//     })
-//   })
-// }
-// 
-// const readTar = (contract) => {
-//   return new Promise((resolve, reject) => {
-//     fs.readFile(`${process.cwd()}/${contract}.tar.gz`, (error, data) => {
-//       if (error) reject(error)
-//       resolve(data)
-//     })
-//   })
-// }
-//
-// const readKey = () => {
-//   return new Promise((resolve, reject) => {
-//     fs.readFile(`${process.cwd()}/key.json`, (error, data) => {
-//       if (error) reject(error)
-//       resolve(JSON.parse(data))
-//     })
-//   })
-// }
 
 module.exports = main

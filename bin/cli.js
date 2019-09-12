@@ -3,10 +3,10 @@
 const program = require("commander")
 const { exec } = require("child_process")
 const inquirer = require("inquirer")
-//const cleanPackage = require("./init.js")
+
 const createAccount = require("./keys.js")
 const deploy = require("./deploy.js")
-const { findContracts, getFunctions } = require("./gear-utils.js")
+const { findContracts, getFunctions, createPackageJson } = require("./gear-utils.js")
 const write = require("./write")
 
 /*******************************************
@@ -25,24 +25,18 @@ program
 #
 #################################################################
     `)
-    const contracts = await findContracts()
     const answers = await inquirer.prompt([
       { type: "input", name: "PROJECT", message: "Project Name", default: "test-project"},
       { type: "input", name: "AUTHOR", message: "Author's Name", default: "John Appleseed"},
-      { type: "input", name: "VERSION", message: "Version Number", default: "0.0.1"},
-      { type: "list", name: "STANDARD", message: "Import Standard Template?", choices: ["Yes","No"]}
-    ])
-    const chosen = await inquirer.prompt([
-      { type: "list",
-        name: "IMPORT",
-        message: "Choose Contract",
-        choices: contracts,
-        when: answers.STANDARD === "Yes"
-        }
+      { type: "input", name: "VERSION", message: "Version Number", default: "0.0.1"}
     ])
 
     const projectName = answers.PROJECT
 
+    let contracts = await findContracts()
+    contracts = await inquirer.prompt([
+      { type: "checkbox", name: "CONTRACTS", message: "Choose Contract", choices: contracts}
+    ])
 
     console.log(`
 #################################################################
@@ -52,19 +46,21 @@ program
 #################################################################
     `)
 
-    const initialize = exec(`project_name=${projectName} sh ${__dirname}/init.sh`, (error, stdout, stderr) => {
+    const initialize = exec(`project_name=${projectName} sh ${__dirname}/init.sh`, async (error, stdout, stderr) => {
       if (error) console.log("#### could not clone example gear-contracts project", error)
-      console.log(stdout)
 
-      if ( answers.STANDARD == "Yes" ) {
-        const cImport = chosen.IMPORT.slice(0, -4)
-        exec(`cp contracts/${cImport}.* ${projectName}/contracts/`)
-        exec(`cp tests/${cImport}.test.js ${projectName}/tests/`)
-      }
+      contracts.CONTRACTS.forEach(contract => {
+        const contractName = contract.slice(0, -4)
+        exec(`cp contracts/${contractName}.* ${projectName}/contracts/`)
+        exec(`cp tests/${contractName}.test.js ${projectName}/tests/`)
+      })
 
-      console.log(answers)
+      await createPackageJson(answers.PROJECT, answers.VERSION, answers.AUTHOR)
+
       console.log(`#### ${projectName} created`)
     })
+
+
   })
 
 
@@ -118,11 +114,16 @@ program
     const contract_path = `${process.cwd()}/contracts/${contract}.cpp`
     const wasm_file = `${contract}.out.wasm`
     const js_file = `${contract}.out.js`
+    const zip_file = `${contract}.tar.gz`
 
     const compile = exec(`contract_path=${contract_path} contract_name=${contract} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
       if (error) console.log("could not compile contract", error)
       console.log(`### created wasm bytecode to output/${wasm_file}`)
       console.log(`### created javascript interface to output/${js_file}`)
+      exec(`contract_name=${contract} . ${__dirname}/package.sh`, (error, stdout, stderr) => {
+        if (error) console.log(error)
+        console.log(`### created zipped tar of contract files to output/${zip_file}`)
+      })
     })
   })
 
@@ -151,7 +152,7 @@ program
 #################################################################
     `)
 
-    const test = exec(`${__dirname}/../node_modules/.bin/tape ${process.cwd()}/test/${contract}.test.js | ${__dirname}/../node_modules/.bin/tap-spec --color=always`, (error, stdout, stderr) => {
+    const test = exec(`${__dirname}/../node_modules/.bin/tape ${process.cwd()}/tests/${contract}.test.js | ${__dirname}/../node_modules/.bin/tap-spec --color=always`, (error, stdout, stderr) => {
       console.log(stdout)
     })
   })
