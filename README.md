@@ -50,6 +50,7 @@ tests
 output
   [compiled emscripten modules]
   [compiled wasm binaries]
+  [gzip contract package tar]
 ```
 ### Create account
 1. `gear-contracts keys`
@@ -64,8 +65,9 @@ Generates QR code image of address to address.png.
 `gear-contracts compile [contract_name]`
 
 ```
-Compiles c++ code to wasm bytecode at [contract_name].out.wasm.
-Generates javascript module interface to [contract_name].out.js.
+Compiles c++ code to wasm bytecode to out/[contract_name].out.wasm.
+Generates javascript module interface to out/[contract_name].out.js.
+Packages and gzips contract files to out/[contract_name].tar.gz
 ```
 
 ### Test
