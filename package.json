@@ -1,6 +1,6 @@
 {
   "name": "gear-contracts",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "",
   "main": "test.js",
   "bin": {
@@ -29,5 +29,13 @@
     "qrcode-terminal": "^0.12.0",
     "tap-spec": "^5.0.0",
     "tape": "^4.11.0"
-  }
+  },
+  "keywords": [
+    "bitcoin",
+    "bitcoinsv",
+    "smart contracts",
+    "compute",
+    "blockchain",
+    "timechain"
+  ]
 }
