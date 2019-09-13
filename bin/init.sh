@@ -1,9 +1,4 @@
-git clone https://github.com/gear-sv/gear-contracts.git $project_name
-cd $project_name
-rm .git
-rm -rf bin
-rm README.md
-rm delorean.jpg
-mkdir output
-npm i
-cd ..
+mkdir $project_name
+mkdir -p $project_name/output
+mkdir -p $project_name/contracts
+mkdir -p $project_name/tests
