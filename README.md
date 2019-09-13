@@ -77,7 +77,7 @@ Packages and gzips contract files to out/[contract_name].tar.gz
 `gear-contracts deploy [contract_name]`
 
 ```
-Reads bytecode from file.
+Packages contract files (.wasm) (.cpp) (.js) (.json).
 Formats gearsv contract deploy call.
 Broadcasts transaction.
 
