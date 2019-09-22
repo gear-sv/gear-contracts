@@ -1,0 +1,25 @@
+{
+  "constructor": {
+    "owner": "string"
+  },
+  "setters": {
+    "setOwner": {
+      "SENDER": "string",
+      "newOwner": "string"
+    },
+    "mint": {
+      "SENDER": "string",
+      "amount": "unsigned int"
+    },
+    "transfer": {
+      "SENDER": "string",
+      "recipient": "string",
+      "amount": "unsigned int"
+    }
+  },
+  "getters": {
+    "getSupply": "unsigned int",
+    "getOwner": "string",
+    "getBalances": "map"
+  }
+}
