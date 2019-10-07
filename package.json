@@ -1,6 +1,6 @@
 {
   "name": "gear-contracts",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "",
   "main": "test.js",
   "bin": {

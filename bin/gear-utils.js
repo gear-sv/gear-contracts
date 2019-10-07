@@ -2,6 +2,7 @@ const util = require("util")
 const readdir = util.promisify(require("fs").readdir)
 const readFile = util.promisify(require("fs").readFile)
 const exec = util.promisify(require("child_process").exec)
+const stat = util.promisify(require("fs").stat)
 const fs = require("fs")
 
 const readContract = (contract) => {
@@ -25,6 +26,11 @@ const readTar = (contract) => {
 // returns contracts object with all .cpp files from contracts folder
 const findContracts = async () => {
   const contractFiles = await readdir(`${process.cwd()}/contracts`)
+  return contractFiles.filter(contract => contract.substring(contract.length - 4, contract.length) === ".cpp")
+}
+
+const getExampleContracts = async () => {
+  const contractFiles = await readdir(`${__dirname}/../contracts`)
   return contractFiles.filter(contract => contract.substring(contract.length - 4, contract.length) === ".cpp")
 }
 
@@ -70,11 +76,23 @@ const createPackageJson = (name, version, author) => {
   })
 }
 
+const checkIsCompiled = async (contractName) => {
+  try {
+    const wasmStat = await stat(`${process.cwd()}/output/${contractName}.out.wasm`)
+    const jsStat = await stat(`${process.cwd()}/output/${contractName}.out.js`)
+  }
+  catch (error) {
+    console.log("### You need to run gear-contracts compile before proceeding.")
+  }
+}
+
 module.exports = {
   findContracts,
   getFunctions,
   readContract,
   readTar,
   readKey,
-  createPackageJson
+  createPackageJson,
+  getExampleContracts,
+  checkIsCompiled
 }
