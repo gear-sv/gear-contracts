@@ -31,7 +31,6 @@ program
       { type: "input", name: "VERSION", message: "Version Number", default: "0.0.1"}
     ])
     const projectName = answers.PROJECT
-
     let contracts = await getExampleContracts()
     contracts = await inquirer.prompt([
       { type: "checkbox", name: "CONTRACTS", message: "Choose Contract", choices: contracts}
@@ -116,9 +115,14 @@ program
     const zip_file = `${contract}.tar.gz`
 
     const compile = exec(`contract_path=${contract_path} contract_name=${contract} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
-      if (error) console.log("could not compile contract", error)
-      console.log(`### created wasm bytecode to output/${wasm_file}`)
-      console.log(`### created javascript interface to output/${js_file}`)
+      if (error) {
+        console.log("### could not compile contract", error)
+        console.log("### install emscripten before proceeding")
+      }
+      else {
+        console.log(`### created wasm bytecode to output/${wasm_file}`)
+        console.log(`### created javascript interface to output/${js_file}`)
+      }
     })
   })
 
