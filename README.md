@@ -67,6 +67,12 @@ Generates QR code image of address to address.png.
 ```
 Compiles c++ code to wasm bytecode to out/[contract_name].out.wasm.
 Generates javascript module interface to out/[contract_name].out.js.
+```
+
+### Package
+`gear-contracts package [contract_name]`
+
+```
 Packages and gzips contract files to out/[contract_name].tar.gz
 ```
 
