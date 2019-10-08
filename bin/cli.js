@@ -112,7 +112,6 @@ program
     const contract_path = `${process.cwd()}/contracts/${contract}.cpp`
     const wasm_file = `${contract}.out.wasm`
     const js_file = `${contract}.out.js`
-    const zip_file = `${contract}.tar.gz`
 
     const compile = exec(`contract_path=${contract_path} contract_name=${contract} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
       if (error) {
@@ -181,6 +180,8 @@ program
 #
 #################################################################
     `)
+
+    const zip_file = `${contract}.tar.gz`
 
     exec(`contract_name=${contract} . ${__dirname}/package.sh`, (error, stdout, stderr) => {
       if (error) console.log(error)
