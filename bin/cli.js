@@ -3,12 +3,13 @@
 const program = require("commander")
 const { exec } = require("child_process")
 const inquirer = require("inquirer")
+const axios = require("axios")
 
 const createAccount = require("./keys.js")
 const deploy = require("./deploy.js")
 const { findContracts, getFunctions, createPackageJson, getExampleContracts } = require("./gear-utils.js")
-const write = require("./write")
-
+const write = require("./write.js")
+const compile = require("./compile.js")
 /*******************************************
 *
 * $ gear-contracts init
@@ -113,16 +114,18 @@ program
     const wasm_file = `${contract}.out.wasm`
     const js_file = `${contract}.out.js`
 
-    const compile = exec(`contract_path=${contract_path} contract_name=${contract} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
-      if (error) {
-        console.log("### could not compile contract", error)
-        console.log("### install emscripten before proceeding")
-      }
-      else {
-        console.log(`### created wasm bytecode to output/${wasm_file}`)
-        console.log(`### created javascript interface to output/${js_file}`)
-      }
-    })
+    // const compile = exec(`contract_path=${contract_path} contract_name=${contract} . ${__dirname}/compile.sh`, (error, stdout, stderr) => {
+    //   if (error) {
+    //     console.log("### could not compile contract", error)
+    //     console.log("### install emscripten before proceeding")
+    //   }
+    //   else {
+    //     console.log(`### created wasm bytecode to output/${wasm_file}`)
+    //     console.log(`### created javascript interface to output/${js_file}`)
+    //   }
+    // })
+
+    await compile(contract)
   })
 
 /*******************************************
@@ -150,9 +153,13 @@ program
 #################################################################
     `)
 
-    const test = exec(`${__dirname}/../node_modules/.bin/tape ${process.cwd()}/tests/${contract}.test.js | ${__dirname}/../node_modules/.bin/tap-spec --color=always`, (error, stdout, stderr) => {
-      console.log(stdout)
-    })
+    const test = exec(
+      `${__dirname}/../node_modules/.bin/tape ${process.cwd()}/tests/${contract}.test.js | ${__dirname}/../node_modules/.bin/tap-spec --color=always`,
+      (error, stdout, stderr) => {
+        console.log(stdout);
+      }
+    )
+
   })
 
 
