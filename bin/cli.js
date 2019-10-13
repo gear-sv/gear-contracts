@@ -126,6 +126,9 @@ program
     // })
 
     await compile(contract)
+
+        console.log(`### created wasm bytecode to output/${wasm_file}`)
+        console.log(`### created javascript interface to output/${js_file}`)
   })
 
 /*******************************************
@@ -153,12 +156,17 @@ program
 #################################################################
     `)
 
+    console.log(contract)
+
     const test = exec(
       `${__dirname}/../node_modules/.bin/tape ${process.cwd()}/tests/${contract}.test.js | ${__dirname}/../node_modules/.bin/tap-spec --color=always`,
       (error, stdout, stderr) => {
-        console.log(stdout);
+        console.log("inside callback")
+        // console.log(stdout);
       }
     )
+
+    console.log('############')
 
   })
 

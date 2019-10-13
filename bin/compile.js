@@ -15,22 +15,19 @@ module.exports = async (contractName) => {
   form.append('file2', hFile.toString('hex'))
   form.append('fileName2', `${contractName}.h`)
 
-  // !!! ip address is hardcoded for now
+  console.log('### sending files to compiler server. will take a few seconds.')
+
   const response = await axios({
     method: 'post',
-    url: `http://35.203.71.42:7050/compile`,
+    url: `http://compile.gear.computer/emcc`,
     data: form,
     headers: {
       'content-type': `multipart/form-data; boundary=${form._boundary}`
     }
   })
-
-  // console.log("response", response.data)
-  console.log("yoooo", typeof response.data, Object.keys(response.data))
-  const wasmFile = response.data.wasmFile.data
-  const jsFile = response.data.jsFile.data
-  console.log("wasmFile", typeof wasmFile)
-  console.log("jsFile", typeof jsFile)
-  await writeFile(`${process.cwd()}/output/${contractName}.wasm`, Buffer.from(wasmFile, 'hex'))
-  await writeFile(`${process.cwd()}/output/${contractName}.js`, Buffer.from(jsFile, 'hex'))
+  
+  const wasmFile = response.data.wasmFile
+  const jsFile = response.data.jsFile
+  await writeFile(`${process.cwd()}/output/${contractName}.out.wasm`, Buffer.from(wasmFile, 'hex'))
+  await writeFile(`${process.cwd()}/output/${contractName}.out.js`, Buffer.from(jsFile, 'hex'))
 }
