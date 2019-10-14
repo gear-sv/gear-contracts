@@ -11,17 +11,17 @@ const main = async () => {
     {
       type: 'text',
       name: 'contract',
-      message: 'What is your contract addr?'
+      message: 'contract id (deployment transaction hash)'
     },
     {
       type: 'text',
-      name: 'procedure',
+      name: 'procedure',/
       message: 'function name'
     },
     {
       type: 'text',
       name: 'params',
-      message: 'params',
+      message: 'params (JSON string)',
     }
   ]
 
