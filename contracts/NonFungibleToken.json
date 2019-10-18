@@ -1,0 +1,24 @@
+{
+  "constructor": {
+    "owner": "string"
+  },
+  "setters": {
+    "setOwner": {
+      "SENDER": "string",
+      "owner": "string"
+    },
+    "mint": {
+      "SENDER": "string",
+      "recipient": "string"
+    },
+    "transfer": {
+      "SENDER": "string",
+      "token": "unsigned int",
+      "recipient": "string"
+    }
+  },
+  "getters": {
+    "getOwner": "string",
+    "getTokens": "map"
+  }
+}

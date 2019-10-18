@@ -43,7 +43,7 @@ string& NonFungibleToken::getTokenOwner(unsigned int index) {
   return this->tokens[index];
 }
 
-map<unsigned int, string>& NonFungibleToken::getTokens() {
+const map<unsigned int, string>& NonFungibleToken::getTokens() {
   return this->tokens;
 }
 
