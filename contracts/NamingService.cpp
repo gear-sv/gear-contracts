@@ -31,7 +31,7 @@ bool NamingService::transfer(string SENDER, string name, string recipient) {
     return false;
   }
 
-  // // check that SENDER owns the name
+  // check that SENDER owns the name
   if (this->names[name] != SENDER) {
     return false;
   }
@@ -53,8 +53,8 @@ bool NamingService::setOwner(string SENDER, string newOwner) {
   return true;
 }
 
-const string& NamingService::getNameOwner(string name) {
-  return this->names[name];
+const map<string, string>& NamingService::getNames() {
+  return this->names;
 }
 
 const string& NamingService::getOwner() {
@@ -62,11 +62,13 @@ const string& NamingService::getOwner() {
 }
 
 EMSCRIPTEN_BINDINGS(NamingService_example) {
+  register_vector<string>("keys");
+  register_map<string, string>("balances");
   class_<NamingService>("NamingService").constructor<string>()
     .function("enroll", &NamingService::enroll)
     .function("transfer", &NamingService::transfer)
     .function("setOwner", &NamingService::setOwner)
-    .function("getNameOwner", &NamingService::getNameOwner)
+    .function("getNameOwner", &NamingService::getNames)
     .function("getOwner", &NamingService::getOwner);
 
 }

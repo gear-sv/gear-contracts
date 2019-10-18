@@ -1,0 +1,21 @@
+{
+  "constructor": {
+    "owner": "string",
+  },
+  "setters": {
+    "enroll": {
+      "SENDER": "string",
+      "name": "string",
+      "recipient": "string"
+    },
+    "transfer": {
+      "SENDER": "string",
+      "name": "string",
+      "recipient": "string"
+    }
+  },
+  "getters": {
+    "getNames": "map",
+    "geetOwner": "string"
+  }
+}
