@@ -3,7 +3,6 @@
 const program = require("commander")
 const { exec } = require("child_process")
 const inquirer = require("inquirer")
-const axios = require("axios")
 
 const createAccount = require("./keys.js")
 const deploy = require("./deploy.js")
@@ -235,7 +234,13 @@ program
 program
   .command("write")
   .action(async (contract) => {
-    write()
+    const contracts = await findContracts()
+    const answers = await inquirer.prompt([
+      { type: "list", name: "CONTRACT", message: "Choose Contract", choices: contracts}
+    ])
+    contract = answers.CONTRACT.slice(0, -4)
+
+    write(contract)
   })
 
 /*******************************************/

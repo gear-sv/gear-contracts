@@ -1,41 +1,72 @@
 const fs = require("fs")
 const datapay = require("datapay")
-const prompts = require('prompts')
+const inquirer = require("inquirer")
+const util = require("util")
+const readFile = util.promisify(require("fs").readFile)
 
-const main = async () => {
+const filteredParams = [
+  'SENDER',
+  'BLOCK_HEIGHT',
+  'BLOCK_TIME'
+]
+
+const main = async (contractName) => {
   // fetch key
   const key = await readKey()
+
+  // fetch abi
+  let abi = await readFile(`${process.cwd()}/contracts/${contractName}.json`)
+  abi = JSON.parse(abi)
 
   // format transaction call
   const questions = [
     {
-      type: 'text',
-      name: 'contract',
-      message: 'contract id (deployment transaction hash)'
+      type: "input",
+      name: "contract",
+      message: "contract id (deployment transaction hash)",
+      default: ""
     },
     {
-      type: 'text',
-      name: 'procedure',/
-      message: 'function name'
+      type: "input",
+      name: "method",
+      message: "function name",
+
     },
-    {
-      type: 'text',
-      name: 'params',
-      message: 'params (JSON string)',
-    }
   ]
 
-   const response = await prompts(questions)
+  const { contract, method } = await inquirer.prompt(questions)
 
-   datapay.send({
-      data: ["gear", response.contract, response.procedure, JSON.stringify(response.params)],
-      pay: {
-        key: key.privateKey,
-        fee: 0
-      }
-    }, (error, hash) => {
-      if (error) console.log("### error writing to contract", error)
-      console.log(`
+  // chek to make sure method exists
+  if (!Object.keys(abi.setters).includes(method)) {
+    console.error("### method does not exist")
+    return false
+  }
+
+  const paramInputs = Object.keys(abi.setters[method])
+    .filter(param => !filteredParams.includes(param))
+    .map(param => ({
+      type: "input",
+      name: param,
+      message: param,
+      default: ""
+    }))
+
+  const params = await inquirer.prompt(paramInputs)
+
+  datapay.send({
+    data: [
+      "gear",
+      contract,
+      method,
+      JSON.stringify(Object.values(params))
+    ],
+    pay: {
+      key: key.privateKey,
+      fee: 0
+    }
+  }, (error, hash) => {
+    if (error) console.log("### error writing to contract", error)
+    console.log(`
   #################################################################
   #
   #   Successfully Wrote to Contract:
@@ -43,8 +74,8 @@ const main = async () => {
   #   https://whatsonchain.com/tx/${hash}
   #
   #################################################################
-      `)
-    })
+    `)
+  })
 }
 
 const readKey = () => {
