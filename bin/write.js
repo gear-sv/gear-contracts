@@ -10,6 +10,11 @@ const filteredParams = [
   'BLOCK_TIME'
 ]
 
+const typeMap = {
+  "unsigned int": "number",
+  "string": "input"
+}
+
 const main = async (contractName) => {
   // fetch key
   const key = await readKey()
@@ -17,7 +22,6 @@ const main = async (contractName) => {
   // fetch abi
   let abi = await readFile(`${process.cwd()}/contracts/${contractName}.json`)
   abi = JSON.parse(abi)
-
   // format transaction call
   const questions = [
     {
@@ -42,10 +46,11 @@ const main = async (contractName) => {
     return false
   }
 
-  const paramInputs = Object.keys(abi.setters[method])
+  const methodObj = abi.setters[method]
+  const paramInputs = Object.keys(methodObj)
     .filter(param => !filteredParams.includes(param))
     .map(param => ({
-      type: "input",
+      type: typeMap[methodObj[param]],
       name: param,
       message: param,
       default: ""
